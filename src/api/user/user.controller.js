@@ -1,4 +1,29 @@
-const User = require('./user.model')
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+} = require('./user.service')
+
+const getAllUsersController = async (req, res) => {
+  try {
+    const users = await getUsers()
+    res.status(200).json({ message: 'Users listed', data: users })
+  } catch (error) {
+    res.status(400).json({ message: 'Error listing users', error: error.message })
+  }
+}
+
+const getUserByIdController = async (req, res) => {
+  try {
+    const { id } = req.params
+    const user = await getUserById(id)
+    res.status(200).json({ message: 'User listed', data: user })
+  } catch (error) {
+    res.status(400).json({ message: 'Error showing this user', error: error.message })
+  }
+}
 
 const createUserController = async (req, res) => {
   try {
@@ -10,13 +35,41 @@ const createUserController = async (req, res) => {
       password
     }
 
-    const user = await User.create(newUser)
+    const user = await createUser(newUser)
+
     res.status(201).json({ message: "User created succesfully", data: user })
   } catch (error) {
     res.status(401).json({ message: "User couldn't be created", data: error.message })
   }
 }
 
+const updateUserController = async (req, res) => {
+  try {
+    const { id } = req.params
+    const data = req.body
+
+    const updateInfo = await updateUser(id, data)
+    res.status(200).json({ message: 'User updated', data: updateInfo })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const deleteUserController = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const deleteSingleUser = await deleteUser(id)
+    res.status(200).json({ message: 'User deleted', data: deleteSingleUser })
+  } catch (error) {
+    res.status(400).json({ message: 'Error to delete this user', error: error.message })
+  }
+}
+
 module.exports = {
-  createUserController
+  getAllUsersController,
+  getUserByIdController,
+  createUserController,
+  updateUserController,
+  deleteUserController
 }

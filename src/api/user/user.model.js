@@ -1,11 +1,37 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, models } = require('mongoose')
+
+const emailRegex = new RegExp('[a-zA-Z0-9]{5,10}@[a-z]{3,10}.com')
 
 const userSchema = new Schema(
   {
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String
+    firstName: {
+      type: String,
+      required: [true, "First Name is required"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last Name is required"]
+    },
+    email: {
+      type: String,
+      match: [emailRegex, 'Email is not valid'],
+      validate: [{
+        validator: async (value) => {
+          try {
+            const user = await models.user.findOne({ email: value })
+            return !user
+          } catch (error) {
+            return false
+          }
+        },
+        message: 'Email already exists'
+      }]
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [8, "The password must contain at least 8 characters between numbers and letters"]
+    }
   },
   {
     timestamps: true,
@@ -13,6 +39,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model('User', userSchema)
+const User = model('user', userSchema)
 
 module.exports = User
