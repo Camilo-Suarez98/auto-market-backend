@@ -31,6 +31,15 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: [8, "The password must contain at least 8 characters between numbers and letters"]
+    },
+    profileImage: {
+      type: String,
+      required: false
+    },
+    phone: String,
+    cars: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'car' }],
+      required: false
     }
   },
   {

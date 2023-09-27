@@ -3,6 +3,10 @@ const User = require('./user.model')
 const getUsers = async () => {
   try {
     const users = await User.find()
+      .populate({
+        path: 'cars',
+        select: ('-_id brand model year')
+      })
     return users
   } catch (error) {
     throw new Error(error)

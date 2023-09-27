@@ -6,7 +6,7 @@ const {
   deleteUser
 } = require('./user.service')
 
-const getAllUsersController = async (req, res) => {
+const getAllUsersController = async (_, res) => {
   try {
     const users = await getUsers()
     res.status(200).json({ message: 'Users listed', data: users })
@@ -28,6 +28,7 @@ const getUserByIdController = async (req, res) => {
 const createUserController = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body
+
     const newUser = {
       firstName,
       lastName,
@@ -51,7 +52,7 @@ const updateUserController = async (req, res) => {
     const updateInfo = await updateUser(id, data)
     res.status(200).json({ message: 'User updated', data: updateInfo })
   } catch (error) {
-    console.log(error);
+    res.status(400).json({ message: "User couldn't be updated", data: error.message })
   }
 }
 
