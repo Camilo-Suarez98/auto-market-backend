@@ -6,7 +6,7 @@ const {
 
 const Car = require('../car/car.model')
 
-const getCarImageContoller = async (_, res) => {
+const getCarImageHandler = async (_, res) => {
   try {
     const images = await getImage()
     res.status(200).json({ message: 'Images found succesfully', data: images })
@@ -15,7 +15,7 @@ const getCarImageContoller = async (_, res) => {
   }
 }
 
-const createCarImageController = async (req, res) => {
+const createCarImageHandler = async (req, res) => {
   try {
     const { authorization: carId } = req.headers
     const { url } = req.body
@@ -39,19 +39,20 @@ const createCarImageController = async (req, res) => {
   }
 }
 
-const deleteCarImageController = async (req, res) => {
+const deleteCarImageHandler = async (req, res) => {
   try {
     const { id } = req.params
 
     const deleteCarSingleImage = await deleteImage(id)
     res.status(200).json({ message: "Image deleted succesfully", data: deleteCarSingleImage })
   } catch (error) {
+
     res.status(400).json({ message: "Error to delete this image", data: error.message })
   }
 }
 
 module.exports = {
-  getCarImageContoller,
-  createCarImageController,
-  deleteCarImageController
+  getCarImageHandler,
+  createCarImageHandler,
+  deleteCarImageHandler
 }

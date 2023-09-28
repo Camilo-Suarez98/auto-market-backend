@@ -1,18 +1,18 @@
 const router = require('express').Router()
 
 const {
-  getAllCarsController,
-  getCarByIdController,
-  createCarController,
-  updateCarController,
-  deleteCarController
+  getAllCarsHandler,
+  getCarByIdHandler,
+  createCarHandler,
+  updateCarHandler,
+  deleteCarHandler
 } = require('./car.controller')
 
-router.route('/').get(getAllCarsController)
-router.route('/').post(createCarController)
+router.route('/').get(getAllCarsHandler)
+router.route('/').post(createCarHandler)
 
-router.route('/:id').get(getCarByIdController)
-router.route('/:id').put(updateCarController)
-router.route('/:id').delete(deleteCarController)
+router.route('/:id').get(getCarByIdHandler)
+router.route('/:id').put(updateCarHandler)
+router.route('/:id').delete(deleteCarHandler)
 
 module.exports = router

@@ -1,14 +1,14 @@
 const router = require('express').Router()
 
 const {
-  getCarImageContoller,
-  createCarImageController,
-  deleteCarImageController
+  getCarImageHandler,
+  createCarImageHandler,
+  deleteCarImageHandler
 } = require('./carImages.controller')
 
-router.route('/').get(getCarImageContoller)
-router.route('/').post(createCarImageController)
+router.route('/').get(getCarImageHandler)
+router.route('/').post(createCarImageHandler)
 
-router.route('/:id').delete(deleteCarImageController)
+router.route('/:id').delete(deleteCarImageHandler)
 
 module.exports = router

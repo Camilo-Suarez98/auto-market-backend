@@ -6,7 +6,7 @@ const {
   deleteUser
 } = require('./user.service')
 
-const getAllUsersController = async (_, res) => {
+const getAllUsersHandler = async (_, res) => {
   try {
     const users = await getUsers()
     res.status(200).json({ message: 'Users listed', data: users })
@@ -15,7 +15,7 @@ const getAllUsersController = async (_, res) => {
   }
 }
 
-const getUserByIdController = async (req, res) => {
+const getUserByIdHandler = async (req, res) => {
   try {
     const { id } = req.params
     const user = await getUserById(id)
@@ -25,7 +25,7 @@ const getUserByIdController = async (req, res) => {
   }
 }
 
-const createUserController = async (req, res) => {
+const createUserHandler = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body
 
@@ -44,7 +44,7 @@ const createUserController = async (req, res) => {
   }
 }
 
-const updateUserController = async (req, res) => {
+const updateUserHandler = async (req, res) => {
   try {
     const { id } = req.params
     const data = req.body
@@ -56,7 +56,7 @@ const updateUserController = async (req, res) => {
   }
 }
 
-const deleteUserController = async (req, res) => {
+const deleteUserHandler = async (req, res) => {
   try {
     const { id } = req.params
 
@@ -68,9 +68,9 @@ const deleteUserController = async (req, res) => {
 }
 
 module.exports = {
-  getAllUsersController,
-  getUserByIdController,
-  createUserController,
-  updateUserController,
-  deleteUserController
+  getAllUsersHandler,
+  getUserByIdHandler,
+  createUserHandler,
+  updateUserHandler,
+  deleteUserHandler
 }

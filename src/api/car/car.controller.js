@@ -8,7 +8,7 @@ const {
 
 const User = require('../user/user.model')
 
-const getAllCarsController = async (_, res) => {
+const getAllCarsHandler = async (_, res) => {
   try {
     const cars = await getCars()
     res.status(200).json({ message: 'Cars listed', data: cars })
@@ -17,7 +17,7 @@ const getAllCarsController = async (_, res) => {
   }
 }
 
-const getCarByIdController = async (req, res) => {
+const getCarByIdHandler = async (req, res) => {
   try {
     const { id } = req.params
     const singleCar = await getCarById(id)
@@ -27,7 +27,7 @@ const getCarByIdController = async (req, res) => {
   }
 }
 
-const createCarController = async (req, res) => {
+const createCarHandler = async (req, res) => {
   try {
     const { authorization: userId } = req.headers
     const {
@@ -62,7 +62,7 @@ const createCarController = async (req, res) => {
   }
 }
 
-const updateCarController = async (req, res) => {
+const updateCarHandler = async (req, res) => {
   try {
     const { id } = req.params
     const data = req.body
@@ -74,7 +74,7 @@ const updateCarController = async (req, res) => {
   }
 }
 
-const deleteCarController = async (req, res) => {
+const deleteCarHandler = async (req, res) => {
   try {
     const { id } = req.params
 
@@ -86,9 +86,9 @@ const deleteCarController = async (req, res) => {
 }
 
 module.exports = {
-  getAllCarsController,
-  getCarByIdController,
-  createCarController,
-  updateCarController,
-  deleteCarController
+  getAllCarsHandler,
+  getCarByIdHandler,
+  createCarHandler,
+  updateCarHandler,
+  deleteCarHandler
 }
