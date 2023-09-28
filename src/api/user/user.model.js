@@ -1,6 +1,6 @@
 const { Schema, model, models } = require('mongoose')
 
-const emailRegex = new RegExp('[a-zA-Z0-9]{5,10}@[a-z]{3,10}.com')
+// const emailRegex = new RegExp('[a-zA-Z0-9]{5,10}@[a-z]{3,10}.com')
 
 const userSchema = new Schema(
   {
@@ -14,7 +14,9 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      match: [emailRegex, 'Email is not valid'],
+      unique: true,
+      required: [true, "Email is required"],
+      // match: [emailRegex, 'Email is not valid'],
       validate: [{
         validator: async (value) => {
           try {
@@ -30,7 +32,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [8, "The password must contain at least 8 characters between numbers and letters"]
+      // minlength: [8, "The password must contain at least 8 characters between numbers and letters"]
     },
     profileImage: {
       type: String,
