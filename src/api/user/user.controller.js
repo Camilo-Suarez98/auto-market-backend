@@ -1,6 +1,8 @@
+const { signToken } = require('../../auth/auth.service')
 const {
   getUsers,
   getUserById,
+  getUserByEmail,
   createUser,
   updateUser,
   deleteUser
@@ -29,6 +31,12 @@ const createUserHandler = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body
 
+    const checkUser = await getUserByEmail(email)
+
+    if (checkUser) {
+      return res.status(400).json({ message: "Email already exists" })
+    }
+
     const newUser = {
       firstName,
       lastName,
@@ -38,7 +46,20 @@ const createUserHandler = async (req, res) => {
 
     const user = await createUser(newUser)
 
-    res.status(201).json({ message: "User created succesfully", data: user })
+    const payload = {
+      id: user.id,
+      email: user.email
+    }
+
+    const token = signToken(payload)
+
+    const profile = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    }
+
+    res.status(201).json({ message: "User created succesfully", token, profile })
   } catch (error) {
     res.status(401).json({ message: "User couldn't be created", data: error.message })
   }

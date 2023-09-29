@@ -3,8 +3,9 @@ const { comparePassword } = require('../utils/bcrypt')
 const { signToken } = require('../auth.service')
 
 const loginHandler = async (req, res) => {
-  const { email, password } = req.body
   try {
+    const { email, password } = req.body
+
     const getUser = await getUserByEmail(email)
 
     if (!getUser) {
