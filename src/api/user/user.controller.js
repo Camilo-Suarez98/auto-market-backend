@@ -46,8 +46,14 @@ const createUserHandler = async (req, res) => {
 
 const updateUserHandler = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.user
     const data = req.body
+
+    const user = await getUserById(id)
+
+    if (!user) {
+      return res.json(404).json({ message: 'User not found' })
+    }
 
     const updateInfo = await updateUser(id, data)
     res.status(200).json({ message: 'User updated', data: updateInfo })
@@ -58,12 +64,18 @@ const updateUserHandler = async (req, res) => {
 
 const deleteUserHandler = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.user
+
+    const user = await getUserById(id)
+
+    if (!user) {
+      return res.json(404).json({ message: 'User not found' })
+    }
 
     const deleteSingleUser = await deleteUser(id)
     res.status(200).json({ message: 'User deleted', data: deleteSingleUser })
   } catch (error) {
-    res.status(400).json({ message: 'Error to delete this user', error: error.message })
+    res.status(404).json({ message: 'Error to delete this user', error: error.message })
   }
 }
 

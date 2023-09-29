@@ -1,6 +1,6 @@
 const { getUserByEmail } = require('../../api/user/user.service')
 const { comparePassword } = require('../utils/bcrypt')
-const jwt = require('jsonwebtoken')
+const { signToken } = require('../auth.service')
 
 const loginHandler = async (req, res) => {
   const { email, password } = req.body
@@ -22,7 +22,7 @@ const loginHandler = async (req, res) => {
       email: getUser.email
     }
 
-    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1d' })
+    const token = signToken(payload)
 
     const profile = {
       firstName: getUser.firstName,

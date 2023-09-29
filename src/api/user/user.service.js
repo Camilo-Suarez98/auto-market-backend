@@ -34,7 +34,7 @@ const getUserByEmail = async (value) => {
 
 const createUser = async (input) => {
   try {
-    const hashedPassword = await hashPassword(input.password, salt)
+    const hashedPassword = await hashPassword(input.password)
 
     const data = {
       ...input,
