@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { isAuthenticated } = require('../../auth/auth.controller')
 
 const {
   getAllCarsHandler,
@@ -9,10 +10,10 @@ const {
 } = require('./car.controller')
 
 router.route('/').get(getAllCarsHandler)
-router.route('/').post(createCarHandler)
+router.route('/').post(isAuthenticated, createCarHandler)
 
 router.route('/:id').get(getCarByIdHandler)
-router.route('/:id').put(updateCarHandler)
-router.route('/:id').delete(deleteCarHandler)
+router.route('/:id').put(isAuthenticated, updateCarHandler)
+router.route('/:id').delete(isAuthenticated, deleteCarHandler)
 
 module.exports = router

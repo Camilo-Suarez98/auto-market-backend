@@ -4,7 +4,6 @@ const carScema = new Schema(
   {
     brand: String,
     model: String,
-    image: String,
     year: String,
     km: String,
     location: {

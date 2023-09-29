@@ -7,6 +7,7 @@ const {
 } = require('./car.service')
 
 const User = require('../user/user.model')
+const { verifyToken } = require('../../auth/auth.service')
 
 const getAllCarsHandler = async (_, res) => {
   try {
@@ -29,28 +30,29 @@ const getCarByIdHandler = async (req, res) => {
 
 const createCarHandler = async (req, res) => {
   try {
-    const { authorization: userId } = req.headers
+    const token = req.headers.authorization
+    const { id } = verifyToken(token.split(' ')[1])
     const {
-      brand, model, image, year, km, location, fuel, color, price
+      brand, model, year, km, location, fuel, color, price
     } = req.body
 
-    const user = await User.findById(userId)
+
+    const user = await User.findById(id)
 
     if (!user) {
-      throw new Error('User not found')
+      throw new Error('Unauthorized')
     }
 
     const newCarInfo = {
       brand,
       model,
-      image,
       year,
       km,
       location,
       fuel,
       color,
       price,
-      user: userId
+      user: id
     }
 
     const newCar = await createCar(newCarInfo)
