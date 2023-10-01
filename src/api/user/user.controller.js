@@ -1,4 +1,4 @@
-const { signToken } = require('../../auth/auth.service')
+const { signToken, verifyToken } = require('../../auth/auth.service')
 const {
   getUsers,
   getUserById,
@@ -19,9 +19,15 @@ const getAllUsersHandler = async (_, res) => {
 
 const getUserByIdHandler = async (req, res) => {
   try {
-    const { id } = req.params
-    const user = await getUserById(id)
-    res.status(200).json({ message: 'User listed', data: user })
+    const token = req.headers.authorization.split(' ')[1]
+    const checkUser = verifyToken(token)
+    const user = req.user
+
+    if (checkUser.id === user.id) {
+      return res.status(200).json({ message: 'User found it', data: user });
+    } else {
+      return res.status(400).json({ message: 'User not found' });
+    }
   } catch (error) {
     res.status(400).json({ message: 'Error showing this user', error: error.message })
   }
