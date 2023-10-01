@@ -38,7 +38,11 @@ const userSchema = new Schema(
       type: String,
       required: false
     },
-    phone: String,
+    profileImage: String,
+    phone: {
+      type: String,
+      required: true
+    },
     cars: {
       type: [{ type: Schema.Types.ObjectId, ref: 'car' }],
       required: false
