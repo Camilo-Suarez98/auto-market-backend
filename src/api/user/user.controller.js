@@ -22,7 +22,7 @@ const getUserByIdHandler = async (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     const checkUser = verifyToken(token)
     const user = req.user
-
+    console.log('info user', user);
     if (checkUser.id === user.id) {
       return res.status(200).json({ message: 'User found it', data: user });
     } else {
@@ -89,6 +89,31 @@ const updateUserHandler = async (req, res) => {
   }
 }
 
+const updateProfileImageHandler = async (req, res) => {
+  try {
+    const { profileImage } = req.body
+    const token = req.headers?.authorization.split(' ')[1]
+
+    const decoded = verifyToken(token)
+
+    if (!decoded) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const { id } = decoded
+
+    const data = {
+      profileImage
+    }
+
+    const newImage = await updateUser(id, data)
+
+    res.status(201).json({ message: 'Profile image updated successfully', data: newImage });
+  } catch (error) {
+    res.status(401).json({ message: 'Profile image could not be updated', error: error.message });
+  }
+}
+
 const deleteUserHandler = async (req, res) => {
   try {
     const { id } = req.user
@@ -111,5 +136,6 @@ module.exports = {
   getUserByIdHandler,
   createUserHandler,
   updateUserHandler,
+  updateProfileImageHandler,
   deleteUserHandler
 }
