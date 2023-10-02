@@ -19,14 +19,20 @@ const getAllUsersHandler = async (_, res) => {
 
 const getUserByIdHandler = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(' ')[1]
-    const checkUser = verifyToken(token)
+    const token = req.headers.authorization.split(' ')[1];
+    const checkUser = verifyToken(token);
     const user = req.user
-    console.log('info user', user);
-    if (checkUser.id === user.id) {
-      return res.status(200).json({ message: 'User found it', data: user });
+
+    if (!checkUser) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const findUser = await getUserById(user.id);
+
+    if (findUser) {
+      return res.status(200).json({ message: 'User found', data: findUser });
     } else {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
     res.status(400).json({ message: 'Error showing this user', error: error.message })
@@ -35,7 +41,7 @@ const getUserByIdHandler = async (req, res) => {
 
 const createUserHandler = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body
+    const { firstName, lastName, email, profileImage, phone, password } = req.body
 
     const checkUser = await getUserByEmail(email)
 
@@ -47,6 +53,8 @@ const createUserHandler = async (req, res) => {
       firstName,
       lastName,
       email,
+      profileImage,
+      phone,
       password
     }
 

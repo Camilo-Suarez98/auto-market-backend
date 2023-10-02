@@ -6,7 +6,7 @@ const getUsers = async () => {
     const users = await User.find()
       .populate({
         path: 'cars',
-        select: ('-_id brand model year')
+        select: ('_id brand model year')
       })
     return users
   } catch (error) {

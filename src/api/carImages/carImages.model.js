@@ -2,7 +2,10 @@ const { Schema, model } = require('mongoose')
 
 const carImagesSchema = new Schema(
   {
-    url: String,
+    url: {
+      type: String,
+      required: false
+    },
     car: {
       type: Schema.Types.ObjectId,
       ref: 'car'
