@@ -22,7 +22,7 @@ const getCarByIdHandler = async (req, res) => {
   try {
     const { id } = req.params
     const singleCar = await getCarById(id)
-    res.status(200).json({ message: 'Cars found succesfully', data: singleCar })
+    res.status(200).json({ message: 'Car found succesfully', data: singleCar })
   } catch (error) {
     res.status(400).json({ message: 'Error when searching for the car', data: error.message })
   }

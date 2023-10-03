@@ -3,6 +3,10 @@ const CarImage = require('./carImages.model')
 const getImage = async () => {
   try {
     const images = await CarImage.find()
+      .populate({
+        path: 'car',
+        select: ('_id brand model year')
+      })
     return images
   } catch (error) {
     throw new Error(error)

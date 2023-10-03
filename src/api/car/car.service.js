@@ -5,7 +5,7 @@ const getCars = async () => {
     const cars = await Car.find()
       .populate({
         path: 'user',
-        select: ('_id firstName lastName email')
+        select: ('_id firstName lastName email phone')
       })
     return cars
   } catch (error) {

@@ -17,17 +17,17 @@ const getCarImageHandler = async (_, res) => {
 
 const createCarImageHandler = async (req, res) => {
   try {
-    const { authorization: carId } = req.headers
-    const { url } = req.body
+    const { url, car } = req.body
 
-    const checkCar = await Car.findById(carId)
+    const checkCar = await Car.findById(car)
 
     if (!checkCar) {
       throw new Error('Car not found')
     }
 
     const newImageUrl = {
-      url
+      url,
+      car
     }
 
     const newImage = await createImage(newImageUrl)
