@@ -33,7 +33,7 @@ const createCarHandler = async (req, res) => {
     const token = req.headers.authorization
     const { id } = verifyToken(token.split(' ')[1])
     const {
-      brand, model, year, km, location, fuel, color, price
+      brand, model, engineDisplacement, year, km, location, fuel, color, price
     } = req.body
 
 
@@ -46,6 +46,7 @@ const createCarHandler = async (req, res) => {
     const newCarInfo = {
       brand,
       model,
+      engineDisplacement,
       year,
       km,
       location,

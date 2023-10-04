@@ -7,19 +7,10 @@ const carScema = new Schema(
     engineDisplacement: String,
     year: String,
     km: String,
-    location: {
-      type: String,
-      required: [true, " Location is required"]
-    },
-    fuel: {
-      type: String,
-      required: [true, "Fuel type is required"]
-    },
+    location: String,
+    fuel: String,
     color: String,
-    price: {
-      type: String,
-      required: [true, "The price is required"]
-    },
+    price: String,
     user: {
       type: Schema.Types.ObjectId,
       ref: 'user',
