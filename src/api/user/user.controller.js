@@ -115,7 +115,6 @@ const updateProfileImageHandler = async (req, res) => {
     }
 
     const newImage = await updateUser(id, data)
-
     res.status(201).json({ message: 'Profile image updated successfully', data: newImage });
   } catch (error) {
     res.status(401).json({ message: 'Profile image could not be updated', error: error.message });

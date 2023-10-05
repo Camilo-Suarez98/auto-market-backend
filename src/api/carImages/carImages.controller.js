@@ -4,7 +4,8 @@ const {
   deleteImage
 } = require('./carImages.service')
 
-const Car = require('../car/car.model')
+const { createCar } = require('../car/car.service')
+const cloudinary = require('cloudinary').v2
 
 const getCarImageHandler = async (_, res) => {
   try {
@@ -19,21 +20,18 @@ const createCarImageHandler = async (req, res) => {
   try {
     const { url, car } = req.body
 
-    const checkCar = await Car.findById(car)
+    const newCar = await createCar(car)
+    const carId = newCar._id
 
-    if (!checkCar) {
-      throw new Error('Car not found')
-    }
+    const result = await cloudinary.uploader.upload(url);
 
     const newImageUrl = {
-      url,
-      car
+      url: result.secure_url,
+      car: carId,
     }
 
     const newImage = await createImage(newImageUrl)
-    checkCar.carImages.unshift(newImage)
-    await checkCar.save({ validateBeforeSave: false })
-    res.status(201).json({ message: "Image created succesfully", data: newImageUrl })
+    res.status(201).json({ message: "Image created succesfully", data: newImage })
   } catch (error) {
     res.status(401).json({ message: "Image couldn't be created", data: error.message })
   }
