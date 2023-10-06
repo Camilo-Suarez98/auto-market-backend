@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { formData } = require('../../middlewares/formData')
 
 const {
   getCarImageHandler,
@@ -7,7 +8,7 @@ const {
 } = require('./carImages.controller')
 
 router.route('/').get(getCarImageHandler)
-router.route('/').post(createCarImageHandler)
+router.route('/').post(formData, createCarImageHandler)
 
 router.route('/:id').delete(deleteCarImageHandler)
 

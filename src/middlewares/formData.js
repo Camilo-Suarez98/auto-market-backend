@@ -7,13 +7,22 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-const formData = (req, res, next) => {
+const formData = (req, _, next) => {
   const bb = busboy({ headers: req.headers })
   req.body = {}
+  let uploadingFile = false
+  let countFiles = 0
 
   bb.on('field', (key, value) => {
     req.body[key] = value
   })
+
+  const done = () => {
+    if (uploadingFile) return;
+    if (countFiles > 0) return;
+
+    next();
+  };
 
   bb.on('file', (key, stream) => {
     const cloud = cloudinary.uploader.upload_stream(
@@ -21,7 +30,12 @@ const formData = (req, res, next) => {
       (err, res) => {
         if (err) throw new Error('Something went wrong')
 
-        console.log("Response from cloudinary", res)
+        req.body[key] = res?.secure_url;
+
+        uploadingFile = false;
+        countFiles--;
+
+        done();
       }
     )
 
@@ -35,7 +49,7 @@ const formData = (req, res, next) => {
   })
 
   bb.on('finish', () => {
-    next()
+    done()
   })
 
   req.pipe(bb)

@@ -99,9 +99,8 @@ const updateUserHandler = async (req, res) => {
 
 const updateProfileImageHandler = async (req, res) => {
   try {
-    const { profileImage } = req.body
     const token = req.headers?.authorization.split(' ')[1]
-
+    const { profileImage } = req.body
     const decoded = verifyToken(token)
 
     if (!decoded) {
@@ -113,6 +112,7 @@ const updateProfileImageHandler = async (req, res) => {
     const data = {
       profileImage
     }
+    console.log(data);
 
     const newImage = await updateUser(id, data)
     res.status(201).json({ message: 'Profile image updated successfully', data: newImage });
