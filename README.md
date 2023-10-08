@@ -15,7 +15,6 @@ Codebase for the node.js projects.
 - [Nodemon](https://www.npmjs.com/package/nodemon)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Cloudinary](https://cloudinary.com/)
-- [SendGrid](https://sendgrid.com/)
 - [Busboy](https://www.npmjs.com/package/busboy)
 - [JSON-webtoken](https://jwt.io/)
 - [MongoDB](https://www.mongodb.com/)
@@ -61,10 +60,16 @@ Once the user has done the process of activating their account, expect a respons
   "message": "User created succesfully",
   "token": "TOKEN-DIOVBQEO189Y491384703189R1BKSCSKJBC",
   "profile": {
+    "_id": "id",
     "firstName": "Juan",
     "lastName": "Marquez",
     "email": "juanmarquez@example.com",
-    "cars": []
+    "password": "userpassword1234",
+    "profileImage": "url-demo", //to edit afeter created
+    "phone": "", //to edit afeter created
+    "cars": [],
+    "createdAt": "date-of-user-created",
+    "updatedAt": "date-of-user-updated"
   }
 }
 ```
